@@ -21,6 +21,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.cache.NoCache;
 
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.keycloack.broker.spid.logging.LogCollector;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
 import org.keycloak.broker.provider.IdentityBrokerException;
 import org.keycloak.broker.provider.IdentityProvider;
@@ -110,6 +111,7 @@ import org.keycloak.saml.validators.ConditionsValidator;
 import org.keycloak.saml.validators.DestinationValidator;
 import org.keycloak.services.util.CacheControlUtil;
 import org.keycloak.sessions.AuthenticationSessionModel;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -140,6 +142,7 @@ import static org.keycloak.utils.LockObjectsForModification.lockUserSessionsForM
  */
 public class SpidSAMLEndpoint {
     protected static final Logger logger = Logger.getLogger(SpidSAMLEndpoint.class);
+    
     public static final String SAML_FEDERATED_SESSION_INDEX = "SAML_FEDERATED_SESSION_INDEX";
     @Deprecated // in favor of SAML_FEDERATED_SUBJECT_NAMEID
     public static final String SAML_FEDERATED_SUBJECT = "SAML_FEDERATED_SUBJECT";
@@ -669,6 +672,10 @@ public class SpidSAMLEndpoint {
                 event.error(Errors.INVALID_SAML_RESPONSE);
                 return ErrorPage.error(session, null, Response.Status.BAD_REQUEST, Messages.IDENTITY_PROVIDER_INVALID_RESPONSE);
             }
+            
+            // Log scopo conservazione AGID
+            LogCollector.logDocument(holder.getSamlDocument());
+            
             StatusResponseType statusResponse = (StatusResponseType)holder.getSamlObject();
             // validate destination
             if (isDestinationRequired()
