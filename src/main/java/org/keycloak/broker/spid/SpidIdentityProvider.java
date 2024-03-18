@@ -17,7 +17,6 @@
 package org.keycloak.broker.spid;
 
 import org.jboss.logging.Logger;
-import org.keycloack.broker.spid.logging.LogCollector;
 import org.keycloak.broker.provider.AbstractIdentityProvider;
 import org.keycloak.broker.provider.AuthenticationRequest;
 import org.keycloak.broker.provider.BrokeredIdentityContext;
@@ -26,6 +25,7 @@ import org.keycloak.broker.provider.IdentityProviderDataMarshaller;
 import org.keycloak.broker.provider.IdentityProviderMapper;
 import org.keycloak.broker.provider.util.SimpleHttp;
 import org.keycloak.broker.saml.SAMLDataMarshaller;
+import org.keycloak.broker.spid.logging.LogCollector;
 import org.keycloak.common.util.PemUtils;
 import org.keycloak.crypto.Algorithm;
 import org.keycloak.crypto.KeyStatus;

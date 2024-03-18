@@ -1,4 +1,4 @@
-package org.keycloack.broker.spid.logging;
+package org.keycloak.broker.spid.logging;
 
 import java.util.Date;
 
